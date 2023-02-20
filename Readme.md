@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Svetlana Burakova](https://up.htmlacademy.ru/javascript/28/user/2066263).
-* Наставник: [Михаил Кислый].
+* Наставник: [Михаил Кислый](https://github.com/smart-grizzly).
 
 ---
 
