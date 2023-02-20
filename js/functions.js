@@ -4,7 +4,7 @@ function checkLength (string, maxLength) {
   return (string.length <= +maxLength) ? 'true' : 'false';
 }
 
-console.log(checkLength('проверяемая строка', 10));
+checkLength('проверяемая строка', 10);
 
 //2. Функция для проверки, является ли строка палиндромом.
 
@@ -12,7 +12,7 @@ function isPalindrome (string) {
   return string.replaceAll(' ', '').split('').reverse().join('').toLowerCase() === string.replaceAll(' ', '').toLowerCase() ? 'isPalindrome' : 'noPalindrome';
 }
 
-console.log(isPalindrome ('Лёша на полке клопа нашёл '));
+isPalindrome ('Лёша на полке клопа нашёл ');
 
 // 3. Функция, которая принимает строку, извлекает содержащиеся в ней цифры от 0 до 9
 
@@ -26,7 +26,7 @@ function getNumbers (string) {
   return numbers;
 }
 
-console.log(getNumbers ('1 кефир, 0.5 батона')); // ??? Почему в таком варианте пробел добавляется в результат и функция работает некорректно?
+getNumbers ('1 кефир, 0.5 батона'); // ??? Почему в таком варианте пробел добавляется в результат и функция работает некорректно?
 
 //4. Функция возвращает исходную строку, дополненную указанными символами до заданной длины.
 
