@@ -1,43 +1,53 @@
 //1. Функция для проверки длины строки.
 
-function checkLength (string, maxLength) {
-  return (string.length <= +maxLength) ? 'true' : 'false';
-}
+const checkLength = (string, maxLength) =>
+  (string.length <= +maxLength);
 
 checkLength('проверяемая строка', 10);
 
 //2. Функция для проверки, является ли строка палиндромом.
 
-function isPalindrome (string) {
-  return string.replaceAll(' ', '').split('').reverse().join('').toLowerCase() === string.replaceAll(' ', '').toLowerCase() ? 'isPalindrome' : 'noPalindrome';
-}
+const isPalindrome = (string) =>
+  string.replaceAll(' ', '').split('').reverse().join('').toLowerCase() === string.replaceAll(' ', '').toLowerCase();
 
 isPalindrome ('Лёша на полке клопа нашёл ');
 
 // 3. Функция, которая принимает строку, извлекает содержащиеся в ней цифры от 0 до 9
 
-function getNumbers (string) {
+const findNumbers = (string) => {
+  if (typeof string === 'number') {
+    return +String(string).replaceAll('.', '').replaceAll('-', '');
+  }
+
   let numbers = '';
   for (let i = 0; i <= string.length; i++) {
-    if (string.at(i) <= 9) {
-      numbers = numbers + +string.at(i);
+    if (!Number.isNaN(parseInt(string.at(i), 10))) {
+      numbers += string.at(i);
     }
   }
-  return numbers;
-}
+  return parseInt(numbers,10);
+};
 
-getNumbers ('1 кефир, 0.5 батона'); // ??? Почему в таком варианте пробел добавляется в результат и функция работает некорректно?
+findNumbers ('1 кефир, 0.5 батона');
+
 
 //4. Функция возвращает исходную строку, дополненную указанными символами до заданной длины.
 
-function fixSymbol(string, minLength, symbol) {
-  let quantitySymbols = minLength - (string).length, repeatSymbol = '';
-  for (; quantitySymbols > 0; quantitySymbols--) {
-    repeatSymbol += symbol.slice(0, quantitySymbols);
+const addPadStart = (string, minLength, symbol) => {
+  const quantitySymbols = minLength - string.length;
+  if (quantitySymbols <= 0) {
+    return string;
   }
 
-  return (symbol === undefined || symbol === '') ? string : repeatSymbol + string;
-}
+  if (symbol.length === 1) {
+    return symbol.slice(0, symbol.length) + symbol.repeat(quantitySymbols - symbol.length) + string;
+  }
 
-document.writeln(fixSymbol('1', 2, '0'));
-// Как сделать, чтобы 4я функция работала не только с числами и выводила результат через console.log?
+  if (symbol.length < minLength) {
+    return symbol.slice(0, symbol.length - 1) + symbol.repeat(quantitySymbols - symbol.length) + string;
+  } else {
+    return symbol.slice(0, quantitySymbols - symbol.length) + string;
+  }
+};
+
+addPadStart('1', 2, '0');
