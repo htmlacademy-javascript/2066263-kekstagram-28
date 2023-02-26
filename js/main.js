@@ -1,4 +1,4 @@
-const NAME = [
+const NAMES = [
   'Карл',
   'Эрик',
   'Фрейя',
@@ -42,3 +42,31 @@ const MESSAGE = [
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
+
+const getRandomInteger = (a, b) => {
+  const lower = Math.ceil(Math.min(a, b));
+  const upper = Math.floor(Math.max(a, b));
+  const result = Math.random() * (upper - lower + 1) + lower;
+  return Math.floor(result);
+};
+
+const descPhoto = () => {
+  const randomNameIndex = getRandomInteger(0, NAMES.length - 1);
+  const randomDescIndex = getRandomInteger(0, DESCRIPTION.length - 1);
+  const randomMessageIndex = getRandomInteger(0, MESSAGE.length - 1);
+  const randomIdIndex = getRandomInteger(1, 25);
+  const randomUrlIndex = getRandomInteger(1, 25);
+  const randomLikeIndex = getRandomInteger(15, 2000);
+  const randomAvatarIndex = getRandomInteger(1, 6);
+  return {
+    id: randomIdIndex,
+    url: `photos/${ randomUrlIndex }.jpg`,
+    description: DESCRIPTION[randomDescIndex],
+    likes: randomLikeIndex,
+    comments: MESSAGE[randomMessageIndex],
+    avatar: `img/avatar-${ randomAvatarIndex }.svg`,
+    name: NAMES[randomNameIndex]
+  };
+};
+
+descPhoto();
