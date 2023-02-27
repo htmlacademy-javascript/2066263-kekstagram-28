@@ -92,7 +92,5 @@ const descPhoto = () => {
   };
 };
 
-const listPhoto = Array.from({length: 25}, descPhoto);
-const list = Array.from({length: 25}, createRangeIdGenerator(1,25));
-list; // Показывает что  createRangeIdGenerator способна сделать массив из неповторяющихся чисел
-listPhoto; // При запуске в объектах, содержащих createRangeIdGenerator отображается вся функция, а не результат ее работы
+const listPhoto = Array.from({length: 25}, descPhoto);// При запуске в объектах, содержащих createRangeIdGenerator отображается вся функция, а не результат ее работы
+const list = Array.from({length: 25}, createRangeIdGenerator(1,25)); // Показывает что  createRangeIdGenerator способна сделать массив из неповторяющихся чисел
