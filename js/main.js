@@ -3,7 +3,12 @@ const NAMES = [
   'Эрик',
   'Фрейя',
   'Элла',
-  'Алис'
+  'Алис',
+  'Ольга',
+  'Олег',
+  'Анна',
+  'Юля',
+  'Саша'
 ];
 
 const DESCRIPTION = [
@@ -50,23 +55,44 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
+function createRangeIdGenerator (min, max) {
+  const previousValues = [];
+
+  return function () {
+    let currentValue = getRandomInteger(min, max);
+    if (previousValues.length >= (max - min + 1)) {
+      return 1000;
+    }
+    while (previousValues.includes(currentValue)) {
+      currentValue = getRandomInteger(min, max);
+    }
+    previousValues.push(currentValue);
+    return currentValue;
+  };
+}
+
+const uniqueIndex = createRangeIdGenerator(1,25);
+
 const descPhoto = () => {
-  const randomNameIndex = getRandomInteger(0, NAMES.length - 1);
   const randomDescIndex = getRandomInteger(0, DESCRIPTION.length - 1);
-  const randomMessageIndex = getRandomInteger(0, MESSAGE.length - 1);
-  const randomIdIndex = getRandomInteger(1, 25);
-  const randomUrlIndex = getRandomInteger(1, 25);
-  const randomLikeIndex = getRandomInteger(15, 2000);
   const randomAvatarIndex = getRandomInteger(1, 6);
+  const randomNameIndex = getRandomInteger(0, NAMES.length - 1);
+  const randomMessageIndex = getRandomInteger(0, MESSAGE.length - 1);
   return {
-    id: randomIdIndex,
-    url: `photos/${ randomUrlIndex }.jpg`,
+    id: createRangeIdGenerator(1,25),
+    url: `photos/${uniqueIndex}.jpg`,
     description: DESCRIPTION[randomDescIndex],
-    likes: randomLikeIndex,
-    comments: MESSAGE[randomMessageIndex],
-    avatar: `img/avatar-${ randomAvatarIndex }.svg`,
-    name: NAMES[randomNameIndex]
+    likes: getRandomInteger(15, 2000),
+    comments: {
+      id: createRangeIdGenerator(1,25),
+      avatar: `img/avatar-${ randomAvatarIndex }.svg`,
+      message: MESSAGE[randomMessageIndex],
+      name: NAMES[randomNameIndex]
+    },
   };
 };
 
-descPhoto();
+const listPhoto = Array.from({length: 25}, descPhoto);
+const list = Array.from({length: 25}, createRangeIdGenerator(1,25));
+list; // Показывает что  createRangeIdGenerator способна сделать массив из неповторяющихся чисел
+listPhoto; // При запуске в объектах, содержащих createRangeIdGenerator отображается вся функция, а не результат ее работы
