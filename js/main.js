@@ -55,7 +55,7 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
-function createRangeIdGenerator (min, max) {
+const createRangeIdGenerator = (min, max) => {
   const previousValues = [];
 
   return function () {
@@ -69,9 +69,11 @@ function createRangeIdGenerator (min, max) {
     previousValues.push(currentValue);
     return currentValue;
   };
-}
+};
 
 const uniqueIndex = createRangeIdGenerator(1,25);
+const uniquePhoto = createRangeIdGenerator(1,25);
+const uniqueId = createRangeIdGenerator(26,100);
 
 const descPhoto = () => {
   const randomDescIndex = getRandomInteger(0, DESCRIPTION.length - 1);
@@ -79,12 +81,12 @@ const descPhoto = () => {
   const randomNameIndex = getRandomInteger(0, NAMES.length - 1);
   const randomMessageIndex = getRandomInteger(0, MESSAGE.length - 1);
   return {
-    id: createRangeIdGenerator(1,25),
-    url: `photos/${uniqueIndex}.jpg`,
+    id: uniqueIndex(),
+    url: `photos/${uniquePhoto()}.jpg`,
     description: DESCRIPTION[randomDescIndex],
     likes: getRandomInteger(15, 2000),
     comments: {
-      id: createRangeIdGenerator(1,25),
+      id: uniqueId(),
       avatar: `img/avatar-${ randomAvatarIndex }.svg`,
       message: MESSAGE[randomMessageIndex],
       name: NAMES[randomNameIndex]
@@ -95,4 +97,3 @@ const descPhoto = () => {
 descPhoto();
 
 //const listPhoto = Array.from({length: 25}, descPhoto); При запуске в объектах, содержащих createRangeIdGenerator отображается вся функция, а не результат ее работы
-//const list = Array.from({length: 25}, createRangeIdGenerator(1,25)); Показывает что  createRangeIdGenerator способна сделать массив из неповторяющихся чисел
