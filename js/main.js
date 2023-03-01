@@ -1,3 +1,13 @@
+const AVATAR_START = 1;
+const AVATAR_END = 6;
+const ID_START = 1;
+const ID_END = 25;
+const URL_START = 1;
+const URL_END = 25;
+const LIKES_START = 15;
+const LIKES_END = 200;
+const COMMENT_START = 26;
+const COMMENT_END = 100;
 const NAMES = [
   'Карл',
   'Эрик',
@@ -71,22 +81,22 @@ const createRangeIdGenerator = (min, max) => {
   };
 };
 
-const uniqueIndex = createRangeIdGenerator(1,25);
-const uniquePhoto = createRangeIdGenerator(1,25);
-const uniqueId = createRangeIdGenerator(26,100);
+const uniqueId = createRangeIdGenerator(ID_START,ID_END);
+const uniquePhoto = createRangeIdGenerator(URL_START,URL_END);
+const idComment = createRangeIdGenerator(COMMENT_START,COMMENT_END);
 
 const descPhoto = () => {
-  const randomDescIndex = getRandomInteger(0, DESCRIPTION.length - 1);
-  const randomAvatarIndex = getRandomInteger(1, 6);
-  const randomNameIndex = getRandomInteger(0, NAMES.length - 1);
-  const randomMessageIndex = getRandomInteger(0, MESSAGE.length - 1);
+  const randomDescIndex = getRandomInteger(1, DESCRIPTION.length - 1);
+  const randomAvatarIndex = getRandomInteger(AVATAR_START,AVATAR_END);
+  const randomNameIndex = getRandomInteger(1, NAMES.length - 1);
+  const randomMessageIndex = getRandomInteger(1, MESSAGE.length - 1);
   return {
-    id: uniqueIndex(),
+    id: uniqueId(),
     url: `photos/${uniquePhoto()}.jpg`,
     description: DESCRIPTION[randomDescIndex],
-    likes: getRandomInteger(15, 2000),
+    likes: getRandomInteger(LIKES_START, LIKES_END),
     comments: {
-      id: uniqueId(),
+      id: idComment(),
       avatar: `img/avatar-${ randomAvatarIndex }.svg`,
       message: MESSAGE[randomMessageIndex],
       name: NAMES[randomNameIndex]
@@ -95,5 +105,5 @@ const descPhoto = () => {
 };
 
 descPhoto();
-
-//const listPhoto = Array.from({length: 25}, descPhoto); При запуске в объектах, содержащих createRangeIdGenerator отображается вся функция, а не результат ее работы
+// const listPhoto = Array.from({length: 25}, descPhoto);
+// console.log(listPhoto)
