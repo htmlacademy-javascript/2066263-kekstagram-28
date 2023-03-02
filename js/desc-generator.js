@@ -84,6 +84,5 @@ const descPhoto = () => {
   };
 };
 
-descPhoto();
 const listDesc = Array.from({length: 25}, descPhoto);
 export {listDesc};
