@@ -11,6 +11,7 @@ const LIKES_START = 15;
 const LIKES_END = 200;
 const COMMENT_START = 26;
 const COMMENT_END = 100;
+const LIST_DESC_LENGTH = 25;
 const NAMES = [
   'Карл',
   'Эрик',
@@ -61,28 +62,33 @@ const MESSAGE = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
+const idComment = createRangeIdGenerator(COMMENT_START,COMMENT_END);
 const uniqueId = createRangeIdGenerator(ID_START,ID_END);
 const uniquePhoto = createRangeIdGenerator(URL_START,URL_END);
-const idComment = createRangeIdGenerator(COMMENT_START,COMMENT_END);
 
-const descPhoto = () => {
-  const randomDescIndex = getRandomInteger(1, DESCRIPTION.length - 1);
+const commentElement = () => {
   const randomAvatarIndex = getRandomInteger(AVATAR_START, AVATAR_END);
   const randomNameIndex = getRandomInteger(1, NAMES.length - 1);
   const randomMessageIndex = getRandomInteger(1, MESSAGE.length - 1);
+  return {
+    id: idComment(),
+    avatar: `img/avatar-${ randomAvatarIndex }.svg`,
+    message: MESSAGE[randomMessageIndex],
+    name: NAMES[randomNameIndex]
+  };
+};
+
+const descPhoto = () => {
+  const randomDescIndex = getRandomInteger(1, DESCRIPTION.length - 1);
+  const commentsList = Array.from({length: getRandomInteger(AVATAR_START, AVATAR_END)}, commentElement);
   return {
     id: uniqueId(),
     url: `photos/${uniquePhoto()}.jpg`,
     description: DESCRIPTION[randomDescIndex],
     likes: getRandomInteger(LIKES_START, LIKES_END),
-    comments: {
-      id: idComment(),
-      avatar: `img/avatar-${ randomAvatarIndex }.svg`,
-      message: MESSAGE[randomMessageIndex],
-      name: NAMES[randomNameIndex]
-    },
+    commentsList
   };
 };
 
-const listDesc = Array.from({length: 25}, descPhoto);
+const listDesc = Array.from({length: LIST_DESC_LENGTH}, descPhoto);
 export {listDesc};
