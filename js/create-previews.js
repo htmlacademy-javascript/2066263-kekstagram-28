@@ -11,15 +11,3 @@ descList.forEach(({likes, url, commentsList}) => {
   puctureElement.querySelector('.picture__img').src = url;
   puctureElement.querySelector('.picture__comments').textContent = commentsList.length;
 });
-
-
-// const previewsDescList = listDesc();
-// const previewsListFragment = document.querySelector('.picture');
-
-// previewsDescList.forEach(({url, likes}) => {
-//   const previewElement = previewsListFragment.cloneNode(true);
-//   previewElement.querySelector('.picture__img').src = url;
-//   previewElement.querySelector('.picture__likes').textContent = likes;
-//   puctures.appendChild(previewElement);
-// });
-
