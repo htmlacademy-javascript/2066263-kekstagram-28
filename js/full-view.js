@@ -1,16 +1,21 @@
 import {isEscapeKey} from './util.js';
+import {listDesc} from './desc-generator.js';
 
 const bigPicture = document.querySelector('.big-picture');
 const pictures = document.querySelector('.pictures');
+const descSocial = document.querySelector('.big-picture__social');
+
 const pictureClose = document.querySelector('.big-picture__cancel');
 
-const onClickPic = ('click', (evt) => {
+const onClickPic = (evt) => {
   bigPicture.classList.remove('hidden');
   const picDesc = evt.target.parentNode;
   bigPicture.querySelector('img').src = evt.target.src;
   bigPicture.querySelector('.likes-count').textContent = picDesc.querySelector('.picture__likes').textContent;
   bigPicture.querySelector('.comments-count').textContent = picDesc.querySelector('.picture__comments').textContent;
-});
+  const search = evt.target.src;
+  descSocial.querySelector('.social__caption').textContent = listDesc.find((Object) => Object.url === search).description;//не понимаю, почему не работает поиск по массиву
+};
 
 pictures.addEventListener('click', onClickPic);
 
@@ -34,4 +39,5 @@ document.addEventListener('keydown', (evt) => {
 //     Количество лайков likes подставьте как текстовое содержание элемента .likes-count.
 
 //     Количество комментариев comments подставьте как текстовое содержание элемента .comments-count.
+//   Описание фотографии description вставьте строкой в блок .social__caption
 
