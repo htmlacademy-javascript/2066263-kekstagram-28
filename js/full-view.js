@@ -2,22 +2,27 @@ import {isEscapeKey} from './util.js';
 import {listDesc} from './desc-generator.js';
 
 const bigPicture = document.querySelector('.big-picture');
-const pictures = document.querySelector('.pictures');
 const descSocial = document.querySelector('.big-picture__social');
-
 const pictureClose = document.querySelector('.big-picture__cancel');
+const thumbnails = document.querySelectorAll('.picture');
 
-const onClickPic = (evt) => {
-  bigPicture.classList.remove('hidden');
-  const picDesc = evt.target.parentNode;
-  bigPicture.querySelector('img').src = evt.target.src;
-  bigPicture.querySelector('.likes-count').textContent = picDesc.querySelector('.picture__likes').textContent;
-  bigPicture.querySelector('.comments-count').textContent = picDesc.querySelector('.picture__comments').textContent;
-  const search = evt.target.src;
-  descSocial.querySelector('.social__caption').textContent = listDesc.find((Object) => Object.url === search).description;//не понимаю, почему не работает поиск по массиву
+const addThumbnailClickHandler = (thumbnail, photo) => {
+  thumbnail.addEventListener('click', () => {
+    bigPicture.classList.remove('hidden');
+    descSocial.querySelector('.social__comment-count').classList.add('hidden');
+    descSocial.querySelector('.comments-loader').classList.add('hidden');
+    document.querySelector('body').classList.add('modal-open');
+    bigPicture.querySelector('img').src = photo.url;
+    bigPicture.querySelector('img').alt = photo.description;
+    bigPicture.querySelector('.likes-count').textContent = photo.likes;
+    bigPicture.querySelector('.social__caption').textContent = photo.description;
+    bigPicture.querySelector('.comments-count').textContent = photo.commentsList.length;
+  });
 };
 
-pictures.addEventListener('click', onClickPic);
+for (let i = 0; i < thumbnails.length; i++) {
+  addThumbnailClickHandler(thumbnails[i], listDesc[i]);
+}
 
 pictureClose.addEventListener('click', () => {
   bigPicture.classList.add('hidden');
@@ -30,14 +35,14 @@ document.addEventListener('keydown', (evt) => {
   }
 });
 
-// const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
+// Список комментариев под фотографией: комментарии должны вставляться в блок .social__comments. Разметка каждого комментария должна выглядеть так:
 
-// Для отображения окна нужно удалять класс hidden у элемента .big-picture и каждый раз заполнять его данными о конкретной фотографии:
-
-//     Адрес изображения url подставьте как src изображения внутри блока .big-picture__img.
-
-//     Количество лайков likes подставьте как текстовое содержание элемента .likes-count.
-
-//     Количество комментариев comments подставьте как текстовое содержание элемента .comments-count.
-//   Описание фотографии description вставьте строкой в блок .social__caption
+// <li class="social__comment">
+//     <img
+//         class="social__picture"
+//         src="{{аватар}}"
+//         alt="{{имя комментатора}}"
+//         width="35" height="35">
+//     <p class="social__text">{{текст комментария}}</p>
+// </li>
 
