@@ -80,7 +80,7 @@ const commentElement = () => {
 
 const descPhoto = () => {
   const randomDescIndex = getRandomInteger(1, DESCRIPTION.length - 1);
-  const commentsList = Array.from({length: getRandomInteger(AVATAR_START, AVATAR_END)}, commentElement);
+  const commentsList = Array.from({length: getRandomInteger(AVATAR_END, COMMENT_START)}, commentElement);
   return {
     id: uniqueId(),
     url: `photos/${uniquePhoto()}.jpg`,
