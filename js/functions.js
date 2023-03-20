@@ -51,3 +51,4 @@ const addPadStart = (string, minLength, symbol) => {
 };
 
 addPadStart('1', 2, '0');
+export {findNumbers};
