@@ -10,14 +10,15 @@ const addThumbnailClickHandler = (thumbnail, photo) => {
   thumbnail.addEventListener('click', () => {
     descSocial.querySelector('.social__comments').innerHTML = '';
     bigPicture.classList.remove('hidden');
-    descSocial.querySelector('.comments-loader').classList.add('hidden');
     document.querySelector('body').classList.add('modal-open');
     bigPicture.querySelector('img').src = photo.url;
     bigPicture.querySelector('img').alt = photo.description;
     bigPicture.querySelector('.likes-count').textContent = photo.likes;
     bigPicture.querySelector('.social__caption').textContent = photo.description;
     bigPicture.querySelector('.comments-count').textContent = photo.commentsList.length;
-    photo.commentsList.forEach(({avatar, name, message}) => {
+    const quantityComments = bigPicture.querySelectorAll('.social__comment').length;
+    const numberComments = quantityComments + 5;
+    photo.commentsList.slice(0,numberComments).forEach(({avatar, name, message}) => {
       const comment = document.createElement('li');
       comment.classList.add('social__comment');
       comment.innerHTML = '<img><p>';
