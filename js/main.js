@@ -1,5 +1,5 @@
 import './create-previews.js';
 import './full-view.js';
-import './open-form.js';
+import './upload-form.js';
 import './effects.js';
 import './scale.js';
