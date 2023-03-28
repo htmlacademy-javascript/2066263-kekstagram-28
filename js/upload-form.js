@@ -72,9 +72,18 @@ document.addEventListener('keydown', (evt) => {
   }
 });
 
-const onFormSubmit = (evt) => {
+formImgUpload.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  pristine.validate();
-};
+  const isValid = pristine.validate();
+  if (isValid) {
+    const formData = new FormData(evt.target);
 
-formImgUpload.addEventListener('submit', onFormSubmit);
+    fetch(
+      'https://28.javascript.pages.academy/kekstagram',
+      {
+        method: 'POST',
+        body: formData,
+      },
+    ).then(() => closeModal());
+  }
+});
