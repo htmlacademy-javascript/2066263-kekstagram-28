@@ -8,7 +8,7 @@ const createPreviews = (data) => {
     pictureElement.querySelector('.picture__likes').textContent = likes;
     pictureElement.querySelector('.picture__img').src = url;
     pictureElement.querySelector('.picture__img').alt = description;
-    pictureElement.dataset.id = id;
+    pictureElement.dataset.thumbnailId = id;
     pictureElement.querySelector('.picture__comments').textContent = comments.length;
   });
 };

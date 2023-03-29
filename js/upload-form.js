@@ -97,6 +97,7 @@ const showMessage = (message) => {
 
 formImgUpload.addEventListener('submit', (evt) => {
   evt.preventDefault();
+  showMessage(sendProcess);
   const isValid = pristine.validate();
   if (isValid) {
     blockUploadButton();
