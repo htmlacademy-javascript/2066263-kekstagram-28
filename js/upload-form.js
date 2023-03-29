@@ -1,6 +1,7 @@
 import {isEscapeKey} from './util.js';
 import { resetEffects } from './effects.js';
 import { resetScale } from './scale.js';
+import {sendData} from './api.js';
 
 const HASHTAGS_MAX_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -12,6 +13,10 @@ const uploadPicture = document.querySelector('.img-upload__overlay');
 const uploadCansel = document.querySelector('.img-upload__cancel');
 const fieldHashtage = uploadPicture.querySelector('.text__hashtags');
 const fieldComment = uploadPicture.querySelector('.text__description');
+const uploadButton = uploadPicture.querySelector('.img-upload__submit');
+const sendSuccess = document.querySelector('#success').content.querySelector('.success');
+const sendError = document.querySelector('#error').content.querySelector('.error');
+const sendProcess = document.querySelector('#messages').content.querySelector('.messages');
 
 const pristine = new Pristine(formImgUpload, {
   classTo: 'img-upload__field-wrapper',
@@ -54,7 +59,6 @@ const closeModal = () => {
   document.querySelector('body').classList.remove('modal-open');
   resetEffects();
   resetScale();
-  uploadPicture.reset();
   pristine.reset();
   formImgUpload.reset();
 };
@@ -65,6 +69,16 @@ uploadCansel.addEventListener('click', () => {
 
 const isFieldFocused = () => document.activeElement === fieldHashtage || document.activeElement === fieldComment;
 
+const blockUploadButton = () => {
+  uploadButton.disabled = true;
+  uploadButton.style.opasity = 0.2;
+};
+
+const unblockUploadButton = () => {
+  uploadButton.disabled = false;
+  uploadButton.style.opasity = 1;
+};
+
 document.addEventListener('keydown', (evt) => {
   if (isEscapeKey(evt) && !isFieldFocused()) {
     evt.preventDefault();
@@ -72,18 +86,30 @@ document.addEventListener('keydown', (evt) => {
   }
 });
 
+const showMessage = (message) => {
+  const messageElement = message.cloneNode(true);
+  document.body.append(messageElement);
+  messageElement.querySelector('button').addEventListener('click', () => {
+    document.body.remove(messageElement);
+  });
+};
+
+
 formImgUpload.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const isValid = pristine.validate();
   if (isValid) {
-    const formData = new FormData(evt.target);
-
-    fetch(
-      'https://28.javascript.pages.academy/kekstagram',
-      {
-        method: 'POST',
-        body: formData,
-      },
-    ).then(() => closeModal());
+    blockUploadButton();
+    sendData(new FormData(evt.target))
+      .then((Response) => {
+        if (Response.ok) {
+          showMessage(sendSuccess);
+          closeModal();
+        } else {
+          blockUploadButton();
+          showMessage(sendError);
+        }
+      });
+    unblockUploadButton();
   }
 });
