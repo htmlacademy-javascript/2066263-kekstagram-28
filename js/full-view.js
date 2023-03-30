@@ -18,7 +18,7 @@ const addThumbnailClickHandler = (thumbnail, photo) => {
     bigPicture.querySelector('.comments-count').textContent = photo.commentsList.length;
     const quantityComments = bigPicture.querySelectorAll('.social__comment').length;
     const numberComments = quantityComments + 5;
-    photo.commentsList.slice(0,numberComments).forEach(({avatar, name, message}) => {
+    photo.comments.slice(0,numberComments).forEach(({avatar, name, message}) => {
       const comment = document.createElement('li');
       comment.classList.add('social__comment');
       comment.innerHTML = '<img><p>';
