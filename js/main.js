@@ -6,6 +6,7 @@ import './effects.js';
 import './scale.js';
 import {getData} from './api.js';
 import {renderGallery} from './gallery.js';
+import {setUserFormSubmit, closeModal} from './upload-form.js';
 
 getData()
   .then((pictures) => {
@@ -16,3 +17,5 @@ getData()
     showAlert('Что-то мешает показать вам все прелести! Пожалуйста, сообщите нам о проблеме');
   });
 
+
+setUserFormSubmit (closeModal);

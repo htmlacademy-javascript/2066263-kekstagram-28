@@ -16,7 +16,7 @@ const fieldComment = uploadPicture.querySelector('.text__description');
 const uploadButton = uploadPicture.querySelector('.img-upload__submit');
 const sendSuccess = document.querySelector('#success').content.querySelector('.success');
 const sendError = document.querySelector('#error').content.querySelector('.error');
-const sendProcess = document.querySelector('#messages').content.querySelector('.messages');
+// const sendProcess = document.querySelector('#error').content.querySelector('.img-upload__message--loading');
 
 const pristine = new Pristine(formImgUpload, {
   classTo: 'img-upload__field-wrapper',
@@ -69,9 +69,30 @@ uploadCansel.addEventListener('click', () => {
 
 const isFieldFocused = () => document.activeElement === fieldHashtage || document.activeElement === fieldComment;
 
+const showMessage = (message) => {
+  const messageElement = message.cloneNode(true);
+  document.body.appendChild(messageElement);
+  window.addEventListener('click', () => {
+    messageElement.classList.add('hidden');
+  });
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      messageElement.classList.add('hidden');
+
+    }
+  });
+
+  messageElement.querySelector('button').addEventListener('click', () => {
+    messageElement.classList.add('hidden');
+  });
+};
+
 const blockUploadButton = () => {
   uploadButton.disabled = true;
   uploadButton.style.opasity = 0.2;
+  showMessage(sendSuccess);
 };
 
 const unblockUploadButton = () => {
@@ -86,31 +107,29 @@ document.addEventListener('keydown', (evt) => {
   }
 });
 
-const showMessage = (message) => {
-  const messageElement = message.cloneNode(true);
-  document.body.append(messageElement);
-  messageElement.querySelector('button').addEventListener('click', () => {
-    document.body.remove(messageElement);
+
+const setUserFormSubmit = (onSuccess) => {
+  formImgUpload.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockUploadButton();
+      sendData(new FormData(evt.target))
+        .then((Response) => {
+          if (Response.ok) {
+            onSuccess();
+            showMessage(sendSuccess);
+          }
+        })
+        .catch(() => {
+          showMessage(sendError);
+        });
+      unblockUploadButton();
+    } else {
+      showMessage(sendError);
+      openModal();
+    }
   });
 };
 
-
-formImgUpload.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  showMessage(sendProcess);
-  const isValid = pristine.validate();
-  if (isValid) {
-    blockUploadButton();
-    sendData(new FormData(evt.target))
-      .then((Response) => {
-        if (Response.ok) {
-          showMessage(sendSuccess);
-          closeModal();
-        } else {
-          blockUploadButton();
-          showMessage(sendError);
-        }
-      });
-    unblockUploadButton();
-  }
-});
+export {setUserFormSubmit, closeModal};
