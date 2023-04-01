@@ -7,6 +7,7 @@ import './scale.js';
 import {getData} from './api.js';
 import {renderGallery} from './gallery.js';
 import {setUserFormSubmit, closeModal} from './upload-form.js';
+import './photo-load.js';
 
 getData()
   .then((pictures) => {

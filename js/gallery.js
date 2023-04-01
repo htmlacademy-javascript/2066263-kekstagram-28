@@ -38,7 +38,6 @@ const showComments = (picture, numberComments) => {
     showCount(picture);
   });
 
-
   bigPicture.querySelector('.social__comments-loader').addEventListener ('click', () => {
     let currentIndex = 0;
     let currentLimit = 1;
