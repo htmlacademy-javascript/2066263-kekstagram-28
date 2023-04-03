@@ -91,13 +91,13 @@ const showMessage = (message) => {
 
 const blockUploadButton = () => {
   uploadButton.disabled = true;
-  uploadButton.style.opasity = 0.2;
+  uploadButton.style.opacity = 0.2;
   showMessage(sendSuccess);
 };
 
 const unblockUploadButton = () => {
   uploadButton.disabled = false;
-  uploadButton.style.opasity = 1;
+  uploadButton.style.opacity = 1;
 };
 
 document.addEventListener('keydown', (evt) => {
@@ -132,4 +132,4 @@ const setUserFormSubmit = (onSuccess) => {
   });
 };
 
-export {setUserFormSubmit, closeModal};
+export {setUserFormSubmit, closeModal, showMessage};
