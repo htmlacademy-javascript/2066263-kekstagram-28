@@ -2,6 +2,8 @@ const picturesList = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
 const createPreviews = (data) => {
+  const collection = document.querySelectorAll('.picture');
+  collection.forEach((e) => e.remove());
   data.forEach(({id, likes, url, description, comments}) => {
     const pictureElement = pictureTemplate.cloneNode(true);
     picturesList.appendChild(pictureElement);
