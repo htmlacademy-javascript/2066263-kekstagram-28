@@ -2,6 +2,7 @@ const picturesList = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
 const createPreviews = (data) => {
+  document.querySelectorAll('.picture').forEach((element) => element.remove());
   data.forEach(({id, likes, url, description, comments}) => {
     const pictureElement = pictureTemplate.cloneNode(true);
     picturesList.appendChild(pictureElement);
@@ -11,6 +12,7 @@ const createPreviews = (data) => {
     pictureElement.dataset.thumbnailId = id;
     pictureElement.querySelector('.picture__comments').textContent = comments.length;
   });
+  document.querySelector('.img-filters').classList.remove('img-filters--inactive');
 };
 
 export{createPreviews};

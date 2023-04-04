@@ -16,7 +16,7 @@ const fieldComment = uploadPicture.querySelector('.text__description');
 const uploadButton = uploadPicture.querySelector('.img-upload__submit');
 const sendSuccess = document.querySelector('#success').content.querySelector('.success');
 const sendError = document.querySelector('#error').content.querySelector('.error');
-// const sendProcess = document.querySelector('#error').content.querySelector('.img-upload__message--loading');
+// const sendProcess = document.querySelector('#messages).content.querySelector('.img-upload__message--loading'); - я бы хотела это реализовать, но мне нужна помощь
 
 const pristine = new Pristine(formImgUpload, {
   classTo: 'img-upload__field-wrapper',
@@ -72,7 +72,7 @@ const isFieldFocused = () => document.activeElement === fieldHashtage || documen
 const showMessage = (message) => {
   const messageElement = message.cloneNode(true);
   document.body.appendChild(messageElement);
-  window.addEventListener('click', () => {
+  document.body.addEventListener('click', () => {
     messageElement.classList.add('hidden');
   });
 
@@ -80,7 +80,6 @@ const showMessage = (message) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       messageElement.classList.add('hidden');
-
     }
   });
 
@@ -91,13 +90,13 @@ const showMessage = (message) => {
 
 const blockUploadButton = () => {
   uploadButton.disabled = true;
-  uploadButton.style.opasity = 0.2;
+  uploadButton.style.opacity = 0.2;
   showMessage(sendSuccess);
 };
 
 const unblockUploadButton = () => {
   uploadButton.disabled = false;
-  uploadButton.style.opasity = 1;
+  uploadButton.style.opacity = 1;
 };
 
 document.addEventListener('keydown', (evt) => {
