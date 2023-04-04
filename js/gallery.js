@@ -1,3 +1,5 @@
+const NUMBER_OF_COMMENTS = 5;
+
 const container = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
 const descSocial = document.querySelector('.big-picture__social');
@@ -44,10 +46,10 @@ const showComments = (picture, numberComments) => {
     currentLimit += currentIndex;
     for (currentIndex; currentIndex < currentLimit && currentIndex < picture.comments.length; currentIndex++) {
       descSocial.querySelector('.social__comments').innerHTML = '';
-      numberComments += 5;
+      numberComments += NUMBER_OF_COMMENTS;
       showComments(picture, numberComments);
     }
-    currentLimit += 5;
+    currentLimit += NUMBER_OF_COMMENTS;
   });
 };
 
@@ -62,7 +64,7 @@ const renderGallery = (pictures) => {
       (item) => item.id === +thumbnail.dataset.thumbnailId
     );
     showBigPicture(picture);
-    showComments(picture, 5);
+    showComments(picture, NUMBER_OF_COMMENTS);
   });
 };
 
