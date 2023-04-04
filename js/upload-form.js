@@ -16,7 +16,7 @@ const fieldComment = uploadPicture.querySelector('.text__description');
 const uploadButton = uploadPicture.querySelector('.img-upload__submit');
 const sendSuccess = document.querySelector('#success').content.querySelector('.success');
 const sendError = document.querySelector('#error').content.querySelector('.error');
-// const sendProcess = document.querySelector('#messages).content.querySelector('.img-upload__message--loading'); - я бы хотела это реализовать, но мне нужна помощь
+const sendProcess = document.querySelector('#messages').content.querySelector('.img-upload__message--loading');
 
 const pristine = new Pristine(formImgUpload, {
   classTo: 'img-upload__field-wrapper',
@@ -61,6 +61,8 @@ const closeModal = () => {
   resetScale();
   pristine.reset();
   formImgUpload.reset();
+  document.querySelector('.message').classList.add('hidden');
+  document.querySelector('.message').innerHTML = '';
 };
 
 uploadCansel.addEventListener('click', () => {
@@ -72,26 +74,33 @@ const isFieldFocused = () => document.activeElement === fieldHashtage || documen
 const showMessage = (message) => {
   const messageElement = message.cloneNode(true);
   document.body.appendChild(messageElement);
-  document.body.addEventListener('click', () => {
-    messageElement.classList.add('hidden');
+  messageElement.classList.add('message');
+  document.body.addEventListener('click', (evt) => {
+    if (evt.target.matches('.message')) {
+      messageElement.classList.add('hidden');
+      document.body.lastChild.innerHTML = '';
+    }
   });
 
   document.addEventListener('keydown', (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
       messageElement.classList.add('hidden');
+      document.body.lastChild.innerHTML = '';
     }
   });
 
-  messageElement.querySelector('button').addEventListener('click', () => {
-    messageElement.classList.add('hidden');
-  });
+  if (messageElement.contains(messageElement.querySelector('button'))) {
+    messageElement.querySelector('button').addEventListener('click', () => {
+      messageElement.classList.add('hidden');
+    });
+  }
 };
 
 const blockUploadButton = () => {
   uploadButton.disabled = true;
   uploadButton.style.opacity = 0.2;
-  showMessage(sendSuccess);
+  showMessage(sendProcess);
 };
 
 const unblockUploadButton = () => {
