@@ -17,7 +17,7 @@ try {
   createPreviews(getFilteredPictures());
   renderGallery(data);
 } catch {
-  showAlert('Что-то мешает показать вам все прелести! Пожалуйста, сообщите нам о проблеме');
+  showAlert('Что-то мешает показать вам все прелести! Пожалуйста, проверьте Интернет-соединение или сообщите нам о проблеме');
 }
 
 setUserFormSubmit(closeModal);
