@@ -1,8 +1,7 @@
-import './full-view.js';
-import './upload-form.js';
+import './photo-load.js';
+import './view-control.js';
 import './effects.js';
 import './scale.js';
-import './photo-load.js';
 import { createPreviews } from './create-previews.js';
 import { showAlert, debounce } from './util.js';
 import {getData} from './api.js';

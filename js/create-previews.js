@@ -12,7 +12,6 @@ const createPreviews = (data) => {
     pictureElement.dataset.thumbnailId = id;
     pictureElement.querySelector('.picture__comments').textContent = comments.length;
   });
-  document.querySelector('.img-filters').classList.remove('img-filters--inactive');
 };
 
 export{createPreviews};

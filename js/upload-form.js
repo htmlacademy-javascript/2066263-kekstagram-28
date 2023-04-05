@@ -61,8 +61,6 @@ const closeModal = () => {
   resetScale();
   pristine.reset();
   formImgUpload.reset();
-  document.querySelector('.message').classList.add('hidden');
-  document.querySelector('.message').innerHTML = '';
 };
 
 uploadCansel.addEventListener('click', () => {
@@ -77,22 +75,20 @@ const showMessage = (message) => {
   messageElement.classList.add('message');
   document.body.addEventListener('click', (evt) => {
     if (evt.target.matches('.message')) {
-      messageElement.classList.add('hidden');
-      document.body.lastChild.innerHTML = '';
+      document.querySelectorAll('.message').forEach((element) => element.remove());
     }
   });
 
   document.addEventListener('keydown', (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
-      messageElement.classList.add('hidden');
-      document.body.lastChild.innerHTML = '';
+      document.querySelectorAll('.message').forEach((e) => e.remove());
     }
   });
 
   if (messageElement.contains(messageElement.querySelector('button'))) {
     messageElement.querySelector('button').addEventListener('click', () => {
-      messageElement.classList.add('hidden');
+      document.querySelectorAll('.message').forEach((e) => e.remove());
     });
   }
 };
@@ -106,6 +102,7 @@ const blockUploadButton = () => {
 const unblockUploadButton = () => {
   uploadButton.disabled = false;
   uploadButton.style.opacity = 1;
+  document.querySelectorAll('.message').forEach((e) => e.remove());
 };
 
 document.addEventListener('keydown', (evt) => {
@@ -127,6 +124,7 @@ const setUserFormSubmit = (onSuccess) => {
           if (Response.ok) {
             onSuccess();
             showMessage(sendSuccess);
+            closeModal();
           }
         })
         .catch(() => {
