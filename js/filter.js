@@ -40,6 +40,7 @@ const setOnFilterClick = (callback) => {
 };
 
 const filter = (gallery, callback) => {
+  document.querySelector('.img-filters').classList.remove('img-filters--inactive');
   pictures = [...gallery];
   setOnFilterClick(callback);
 };
