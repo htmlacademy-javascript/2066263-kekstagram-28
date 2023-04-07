@@ -1,8 +1,19 @@
+import {isEscapeKey} from './util.js';
+
 const NUMBER_OF_COMMENTS = 5;
 
 const container = document.querySelector('.pictures');
 const bigPicture = document.querySelector('.big-picture');
 const descSocial = document.querySelector('.big-picture__social');
+const pictureClose = document.querySelector('.big-picture__cancel');
+
+const onBigPictureEscKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    bigPicture.classList.add('hidden');
+    document.querySelector('body').classList.remove('modal-open');
+  }
+};
 
 const showBigPicture = (picture) => {
   descSocial.querySelector('.social__comments').innerHTML = '';
@@ -12,6 +23,12 @@ const showBigPicture = (picture) => {
   bigPicture.querySelector('img').alt = picture.description;
   bigPicture.querySelector('.likes-count').textContent = picture.likes;
   bigPicture.querySelector('.social__caption').textContent = picture.description;
+  document.addEventListener('keydown', (onBigPictureEscKeydown));
+  pictureClose.addEventListener('click', () => {
+    bigPicture.classList.add('hidden');
+    document.querySelector('body').classList.remove('modal-open');
+    document.removeEventListener('keydown', (onBigPictureEscKeydown));
+  });
 };
 
 const showCount = (picture) => {

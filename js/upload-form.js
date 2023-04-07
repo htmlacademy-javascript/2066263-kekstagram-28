@@ -73,23 +73,23 @@ const showMessage = (message) => {
   const messageElement = message.cloneNode(true);
   document.body.appendChild(messageElement);
   messageElement.classList.add('message');
-  document.body.addEventListener('click', (evt) => {
+  window.addEventListener('click', (evt) => {
     if (evt.target.matches('.message')) {
-      document.querySelectorAll('.message').forEach((element) => element.remove());
+      document.body.querySelectorAll('.message').forEach((element) => element.remove());
     }
-  });
+  }, {once:true});
 
   document.addEventListener('keydown', (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();
-      document.querySelectorAll('.message').forEach((e) => e.remove());
+      document.body.querySelectorAll('.message').forEach((element) => element.remove());
     }
-  });
+  }, {once:true});
 
   if (messageElement.contains(messageElement.querySelector('button'))) {
     messageElement.querySelector('button').addEventListener('click', () => {
-      document.querySelectorAll('.message').forEach((e) => e.remove());
-    });
+      document.body.querySelectorAll('.message').forEach((element) => element.remove());
+    }, {once:true});
   }
 };
 
@@ -110,7 +110,7 @@ document.addEventListener('keydown', (evt) => {
     evt.preventDefault();
     closeModal();
   }
-});
+}, {once:true});
 
 
 const setUserFormSubmit = (onSuccess) => {
@@ -123,14 +123,14 @@ const setUserFormSubmit = (onSuccess) => {
         .then((Response) => {
           if (Response.ok) {
             onSuccess();
-            showMessage(sendSuccess);
             closeModal();
+            unblockUploadButton();
+            showMessage(sendSuccess);
           }
         })
         .catch(() => {
           showMessage(sendError);
         });
-      unblockUploadButton();
     } else {
       showMessage(sendError);
       openModal();

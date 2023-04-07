@@ -7,22 +7,6 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
-const createRangeIdGenerator = (min, max) => {
-  const previousValues = [];
-
-  return function () {
-    let currentValue = getRandomInteger(min, max);
-    if (previousValues.length >= (max - min + 1)) {
-      return 1000;
-    }
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomInteger(min, max);
-    }
-    previousValues.push(currentValue);
-    return currentValue;
-  };
-};
-
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const showAlert = (message) => {
@@ -56,4 +40,4 @@ function debounce (callback, timeoutDelay = 500) {
   };
 }
 
-export { getRandomInteger, createRangeIdGenerator, isEscapeKey, showAlert, debounce};
+export { getRandomInteger, isEscapeKey, showAlert, debounce};
