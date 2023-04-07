@@ -8,9 +8,9 @@ const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
 const TAG_ERROR_TEXT = 'начните с решетки, не более 5 тегов без спецсимволов, пожалуйста';
 
 const formImgUpload = document.querySelector('.img-upload__form');
-const uploadControl = formImgUpload.querySelector('.img-upload__start');
-const uploadPicture = formImgUpload.querySelector('.img-upload__overlay');
-const uploadCansel = formImgUpload.querySelector('.img-upload__cancel');
+const uploadControl = document.querySelector('.img-upload__start');
+const uploadPicture = document.querySelector('.img-upload__overlay');
+const uploadCansel = document.querySelector('.img-upload__cancel');
 const fieldHashtage = uploadPicture.querySelector('.text__hashtags');
 const fieldComment = uploadPicture.querySelector('.text__description');
 const uploadButton = uploadPicture.querySelector('.img-upload__submit');
@@ -73,26 +73,35 @@ const showMessage = (message) => {
   const messageElement = message.cloneNode(true);
   document.body.appendChild(messageElement);
   messageElement.classList.add('message');
-  uploadButton.addEventListener('click', (evt) => {
+  window.addEventListener('click', (evt) => {
     if (evt.target.matches('.message')) {
-      document.querySelectorAll('.message').forEach((element) => element.remove());
+      document.body.querySelectorAll('.message').forEach((element) => element.remove());
     }
-  });
+  }, {once:true});
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      document.body.querySelectorAll('.message').forEach((element) => element.remove());
+    }
+  }, {once:true});
 
   if (messageElement.contains(messageElement.querySelector('button'))) {
     messageElement.querySelector('button').addEventListener('click', () => {
-      document.querySelectorAll('.message').forEach((e) => e.remove());
-    });
+      document.body.querySelectorAll('.message').forEach((element) => element.remove());
+    }, {once:true});
   }
 };
 
 const blockUploadButton = () => {
   uploadButton.disabled = true;
+  uploadButton.style.opacity = 0.2;
   showMessage(sendProcess);
 };
 
 const unblockUploadButton = () => {
   uploadButton.disabled = false;
+  uploadButton.style.opacity = 1;
   document.querySelectorAll('.message').forEach((e) => e.remove());
 };
 
@@ -101,34 +110,31 @@ document.addEventListener('keydown', (evt) => {
     evt.preventDefault();
     closeModal();
   }
-});
+}, {once:true});
 
 
 const setUserFormSubmit = (onSuccess) => {
   formImgUpload.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    blockUploadButton();
     const isValid = pristine.validate();
     if (isValid) {
+      blockUploadButton();
       sendData(new FormData(evt.target))
         .then((Response) => {
           if (Response.ok) {
             onSuccess();
-            showMessage(sendSuccess);
             closeModal();
+            unblockUploadButton();
+            showMessage(sendSuccess);
           }
         })
         .catch(() => {
           showMessage(sendError);
-          openModal();
-        })
-        .finally(unblockUploadButton());
+        });
+    } else {
+      showMessage(sendError);
+      openModal();
     }
-    // else {
-    //   showMessage(sendError);
-
-    //   unblockUploadButton();
-    // }
   });
 };
 
